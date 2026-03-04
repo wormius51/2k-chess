@@ -30,11 +30,11 @@ function copyPiece (piece) {
  * @param {Number} y 
  * @param {bool} ignoreAttacks 
  */
-function getMovesOfPiece(board, x, y, ignoreAttacks = false, ignoreTurn = false) {
+function getMovesOfPiece(board, x, y, ignoreAttacks = false, ignoreTurn = false, allowEmptyAttacks = false, xRay = false) {
     if (!board[y] || !board[y][x]) return [];
     if (!pieceMoves[board[y][x].type]) return [];
-    if ((!ignoreAttacks || !ignoreTurn) && board[y][x].team != position.turn) return [];
-    let moves = pieceMoves[board[y][x].type](board, x, y, ignoreAttacks);
+    if (!ignoreTurn && board[y][x].team != position.turn) return [];
+    let moves = pieceMoves[board[y][x].type](board, x, y, ignoreAttacks, ignoreTurn, allowEmptyAttacks, xRay);
     moves.forEach(move => {
         move.sx = x;
         move.sy = y;
@@ -90,7 +90,7 @@ const pieceMoves = {
             for (let j = 0; j < board.length; j++) {
                 for (let i = 0; i < board[j].length; i++) {
                     if (board[j][i] && board[j][i].team != board[y][x].team) {
-                        getMovesOfPiece(board, i, j, true).forEach(attackerMove => {
+                        getMovesOfPiece(board, i, j, true, true).forEach(attackerMove => {
                             attackerMoves.push(attackerMove);
                         });
                     }
@@ -139,15 +139,23 @@ const pieceMoves = {
                 }))
                 moves.push({x: x - 2, y: y});
         }
-        
+        for (const move of moves) {
+            move.attack = true;
+        }
+
         return moves;
     },
 
-    queen: (board, x, y, ignoreAttacks) => {
-        let moves = pieceMoves.bishop(board, x, y, ignoreAttacks);
-        pieceMoves.rook(board, x, y, ignoreAttacks).forEach(move => {
+    queen: (board, x, y, ignoreAttacks, ignoreTurn, allowEmptyAttacks, xRay) => {
+        let moves = pieceMoves.bishop(board, x, y, ignoreAttacks, ignoreTurn, allowEmptyAttacks, xRay);
+        pieceMoves.rook(board, x, y, ignoreAttacks, ignoreTurn, allowEmptyAttacks, xRay).forEach(move => {
             moves.push(move);
         });
+
+        for (const move of moves) {
+            move.attack = true;
+        }
+
         return moves;
     },
 
@@ -171,10 +179,15 @@ const pieceMoves = {
                 }
             });
         });
+
+        for (const move of moves) {
+            move.attack = true;
+        }
+
         return moves;
     },
 
-    rook: (board, x, y, ignoreAttacks) => {
+    rook: (board, x, y, ignoreAttacks, ignoreTurn, allowEmptyAttacks, xRay) => {
         let moves = [];
         for (let i = x - 1; i >= 0; i--) {
             if (board[y][i] && !(ignoreAttacks && board[y][i].team != board[y][x].team && board[y][i].type == "king")) {
@@ -208,10 +221,15 @@ const pieceMoves = {
             }
             moves.push({ x: x, y: i });
         }
+
+        for (const move of moves) {
+            move.attack = true;
+        }
+
         return moves;
     },
 
-    bishop: (board, x, y, ignoreAttacks) => {
+    bishop: (board, x, y, ignoreAttacks, ignoreTurn, allowEmptyAttacks, xRay) => {
         let moves = [];
         let minLength = Math.min(board.length, board[y].length);
         let dirs = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
@@ -229,24 +247,29 @@ const pieceMoves = {
                 moves.push({ x: x + i * dir[0], y: y + i * dir[1] });
             }
         });
+
+        for (const move of moves) {
+            move.attack = true;
+        }
+
         return moves;
     },
 
-    pawn: (board, x, y, ignoreAttacks) => {
+    pawn: (board, x, y, ignoreAttacks, ignoreTurn, allowEmptyAttacks) => {
         let dir = board[y][x].team == "white" ? -1 : 1;
         let moves = [];
         if (!ignoreAttacks && board[y + dir] && !board[y + dir][x]) {
             moves.push({ x: x, y: y + dir });
-            if (((board[y][x].team == board.turn) ? board[y][x].firstMove : board.ball.firstMove) && !board[y + dir * 2][x])
+            if (((ignoreTurn || board[y][x].team == board.turn) ? board[y][x].firstMove : (board.ball ? board.ball.firstMove : false)) && !board[y + dir * 2][x])
                 moves.push({ x: x, y: y + dir * 2 });
         }
         if (x < board[y + dir].length - 1) {
-            if (ignoreAttacks || (board[y + dir][x + 1] && board[y + dir][x + 1].team != board[y][x].team) || (position.enpassant && position.enpassant.x == x + 1 && position.enpassant.y == y + dir)) {
+            if (allowEmptyAttacks || ignoreAttacks || (board[y + dir][x + 1] && board[y + dir][x + 1].team != board[y][x].team) || (position.enpassant && position.enpassant.x == x + 1 && position.enpassant.y == y + dir)) {
                 moves.push({ x: x + 1, y: y + dir });
             }
         }
         if (x > 0) {
-            if (ignoreAttacks || (board[y + dir][x - 1] && board[y + dir][x - 1].team != board[y][x].team) || (position.enpassant && position.enpassant.x == x - 1 && position.enpassant.y == y + dir)) {
+            if (allowEmptyAttacks || ignoreAttacks || (board[y + dir][x - 1] && board[y + dir][x - 1].team != board[y][x].team) || (position.enpassant && position.enpassant.x == x - 1 && position.enpassant.y == y + dir)) {
                 moves.push({ x: x - 1, y: y + dir });
             }
         }
@@ -265,6 +288,12 @@ const pieceMoves = {
                 });
             });
         }
+
+        for (const move of moves) {
+            if (x != move.x)
+                move.attack = true;
+        }
+
         return moves;
     }
 };

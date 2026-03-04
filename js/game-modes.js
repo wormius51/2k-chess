@@ -1,3 +1,4 @@
+var attacksCounts = [];
 
 /**
  * 
@@ -14,9 +15,9 @@ function getSquareAttackCount (file, rank) {
             if (!piece)
                 continue;
 
-            let pieceMoves = getMovesOfPiece(position, x, y, true, true);
+            let pieceMoves = getMovesOfPiece(position, x, y, false, true, true, true);
             for (let move of pieceMoves) {
-                if (move.x == file && move.y == rank) {
+                if (move.attack && move.x == file && move.y == rank) {
                     attackCount += piece.team == "white" ? 1 : -1;
                     continue;
                 }
@@ -25,4 +26,15 @@ function getSquareAttackCount (file, rank) {
     }
 
     return attackCount;
+}
+
+function calculateAttacksCounts () {
+    for (let rank = 0; rank < boardHeight; rank++) {
+        if (!attacksCounts[rank])
+            attacksCounts[rank] = [];
+        
+        for (let file = 0; file < boardWidth; file++) {
+            attacksCounts[rank][file] = getSquareAttackCount(file, rank);
+        }
+    }
 }

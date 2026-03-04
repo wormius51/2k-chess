@@ -92,7 +92,14 @@ function drawAttackCount (file, rank) {
 function drawAttackCounts () {
     for (let file = 0; file < boardWidth; file++) {
         for (let rank = 0; rank < boardHeight; rank++) {
-            drawAttackCount(file, rank);
+            let attackCount = attacksCounts[rank][file];
+            context.fillStyle = ((file + rank) % 2 == 1) ? lightSquareColor : darkSquareColor;
+            context.font = `${squareEdgeLength}px verda`;
+            if (flippedBoard) {
+                file = boardWidth - 1 - file;
+                rank = boardHeight - 1 - rank;
+            }
+            context.fillText(attackCount, (file + 0.2) * squareEdgeLength, (rank + 0.9) * squareEdgeLength, squareEdgeLength);
         }
     }
 }

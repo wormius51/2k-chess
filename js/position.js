@@ -146,7 +146,7 @@ function isCheck(position, team) {
     for (let y = 0; y < position.length; y++) {
         for (let x = 0; x < position[y].length; x++) {
             if (!position[y][x] || position[y][x].team == team) continue;
-            let moves = getMovesOfPiece(position, x, y, true);
+            let moves = getMovesOfPiece(position, x, y, true, true);
             for (let i = 0; i < moves.length; i++) {
                 let move = moves[i];
                 if (position[move.y][move.x]) {
