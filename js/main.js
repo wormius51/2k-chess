@@ -48,6 +48,14 @@ function selectSquare (file, rank, xInSquare, yInSquare, isDrag) {
         file = boardWidth - 1 - file;
         rank = boardHeight - 1 - rank;
     }
+
+    let attackCount = getSquareAttackCount(file, rank);
+    console.log(`
+        file: ${file}
+        rank: ${rank}
+        attackCount: ${attackCount}
+    `);
+
     if (position[rank] && draggedPiece == position.ball && position[rank][file] == position.ball)
         return;
     if (isDrag && position[rank])

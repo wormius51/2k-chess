@@ -78,6 +78,25 @@ function drawPiece (piece, file, rank, size) {
     context.drawImage(piecesImage, pieceX * pieceEdgeLength, pieceY * pieceEdgeLength, pieceEdgeLength, pieceEdgeLength, file * squareEdgeLength, rank * squareEdgeLength, squareEdgeLength * size, squareEdgeLength * size);
 }
 
+function drawAttackCount (file, rank) {
+    let attackCount = getSquareAttackCount(file, rank);
+    context.fillStyle = ((file + rank) % 2 == 1) ? lightSquareColor : darkSquareColor;
+    context.font = `${squareEdgeLength}px verda`;
+    if (flippedBoard) {
+        file = boardWidth - 1 - file;
+        rank = boardHeight - 1 - rank;
+    }
+    context.fillText(attackCount, (file + 0.2) * squareEdgeLength, (rank + 0.9) * squareEdgeLength, squareEdgeLength);
+}
+
+function drawAttackCounts () {
+    for (let file = 0; file < boardWidth; file++) {
+        for (let rank = 0; rank < boardHeight; rank++) {
+            drawAttackCount(file, rank);
+        }
+    }
+}
+
 function drawOutline (pieceX, pieceY, file, rank, size) {
     context.globalCompositeOperation = "xor";
     let outlineEngeLength = squareEdgeLength * (1 + pieceOutlineSize);
@@ -164,6 +183,7 @@ function drawBoard () {
     drawSquares();
     //drawClydeBackground();
     drawPieces();
+    drawAttackCounts();
     drawMoveOptions();
     if (draggedPiece)
         drawDraggedPiece();

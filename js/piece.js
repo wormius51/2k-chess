@@ -25,14 +25,15 @@ function copyPiece (piece) {
 
 /**
  * Returns the legal moves of the piece at position (x,y);
- * @param {Pieces[][]} board 
+ * @param {Piece[][]} board 
  * @param {Number} x 
  * @param {Number} y 
+ * @param {bool} ignoreAttacks 
  */
-function getMovesOfPiece(board, x, y, ignoreAttacks) {
+function getMovesOfPiece(board, x, y, ignoreAttacks = false, ignoreTurn = false) {
     if (!board[y] || !board[y][x]) return [];
     if (!pieceMoves[board[y][x].type]) return [];
-    if (!ignoreAttacks && board[y][x].team != position.turn) return [];
+    if ((!ignoreAttacks || !ignoreTurn) && board[y][x].team != position.turn) return [];
     let moves = pieceMoves[board[y][x].type](board, x, y, ignoreAttacks);
     moves.forEach(move => {
         move.sx = x;
