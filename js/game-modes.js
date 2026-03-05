@@ -1,4 +1,41 @@
+
 var attacksCounts = [];
+var currentLevel;
+
+var drawingAttackCounts = true;
+
+/**
+ * 
+ * @param {string} name 
+ * @param {string} desctiption 
+ * @param {string} fen The position encoded in a string
+ * @param {{
+ * x : number,
+ * y : number,
+ * count : number
+ * }[]} goals Squares and counts you need to reach to solve
+ * @param {number} minimumMoves The number of moves it took me to solve
+ * @returns {{
+ *  name : string,
+ *  desctiption : string,
+ *  fen : string,
+ *  goals : {
+ *      x : number,
+ *      y : number,
+ *      count : number
+ *  }
+ * }}
+ */
+function Level (name, desctiption, fen, goals, minimumMoves) {
+    let level = {
+        name: name,
+        desctiption: desctiption,
+        fen: fen,
+        goals: goals,
+        minimumMoves: minimumMoves
+    };
+    return level;
+}
 
 /**
  * 

@@ -79,31 +79,28 @@ function drawPiece (piece, file, rank, size) {
 }
 
 function drawAttackCount (file, rank) {
-    let attackCount = getSquareAttackCount(file, rank);
+    let attackCount = attacksCounts[rank][file];
     context.fillStyle = ((file + rank) % 2 == 1) ? lightSquareColor : darkSquareColor;
     context.font = `${squareEdgeLength}px verda`;
+    let x = file;
+    let y = rank;
     if (flippedBoard) {
-        file = boardWidth - 1 - file;
-        rank = boardHeight - 1 - rank;
+        x = boardWidth - 1 - file;
+        y = boardHeight - 1 - rank;
     }
-    context.fillText(attackCount, (file + 0.2) * squareEdgeLength, (rank + 0.9) * squareEdgeLength, squareEdgeLength);
+    context.fillText(attackCount, (x + 0.2) * squareEdgeLength, (y + 0.9) * squareEdgeLength, squareEdgeLength);
 }
 
 function drawAttackCounts () {
     for (let file = 0; file < boardWidth; file++) {
         for (let rank = 0; rank < boardHeight; rank++) {
-            let attackCount = attacksCounts[rank][file];
-            context.fillStyle = ((file + rank) % 2 == 1) ? lightSquareColor : darkSquareColor;
-            context.font = `${squareEdgeLength}px verda`;
-            let x = file;
-            let y = rank;
-            if (flippedBoard) {
-                x = boardWidth - 1 - file;
-                y = boardHeight - 1 - rank;
-            }
-            context.fillText(attackCount, (x + 0.2) * squareEdgeLength, (y + 0.9) * squareEdgeLength, squareEdgeLength);
+            drawAttackCount(file, rank);
         }
     }
+}
+
+function drawLevelAttackCounts () {
+    // TODO
 }
 
 function drawOutline (pieceX, pieceY, file, rank, size) {
@@ -192,7 +189,9 @@ function drawBoard () {
     drawSquares();
     //drawClydeBackground();
     drawPieces();
-    drawAttackCounts();
+    if (drawingAttackCounts)
+        drawAttackCounts();
+
     drawMoveOptions();
     if (draggedPiece)
         drawDraggedPiece();
