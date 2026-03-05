@@ -95,11 +95,13 @@ function drawAttackCounts () {
             let attackCount = attacksCounts[rank][file];
             context.fillStyle = ((file + rank) % 2 == 1) ? lightSquareColor : darkSquareColor;
             context.font = `${squareEdgeLength}px verda`;
+            let x = file;
+            let y = rank;
             if (flippedBoard) {
-                file = boardWidth - 1 - file;
-                rank = boardHeight - 1 - rank;
+                x = boardWidth - 1 - file;
+                y = boardHeight - 1 - rank;
             }
-            context.fillText(attackCount, (file + 0.2) * squareEdgeLength, (rank + 0.9) * squareEdgeLength, squareEdgeLength);
+            context.fillText(attackCount, (x + 0.2) * squareEdgeLength, (y + 0.9) * squareEdgeLength, squareEdgeLength);
         }
     }
 }
