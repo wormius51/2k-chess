@@ -44,7 +44,6 @@ function getSquareAttackCount (file, rank) {
                 continue;
             
             let piece = pieceMove.piece;
-            let move = pieceMove.move;
 
             if (piece.type == "queen" || piece.type == "rook" || piece.type == "bishop") {
                 let dx = file - x;
@@ -59,7 +58,13 @@ function getSquareAttackCount (file, rank) {
                     let blockingX = x + stepX * i;
                     let blockingY = y + stepY * i;
                     let xRayedPieceMove = movesGrid[blockingY][blockingX];
-                    if (!xRayedPieceMove) {
+                    if (xRayedPieceMove) {
+                        // You can't make a battery with a king because you can't trade the king.
+                        if (xRayedPieceMove.piece.type == "king" && piece.team == xRayedPieceMove.piece.team)
+                            blocked = true;
+                            break;
+
+                    } else {
                         let blockingPiece = position[blockingY][blockingX];
                         if (blockingPiece){
                             blocked = true;

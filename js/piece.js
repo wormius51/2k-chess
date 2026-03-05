@@ -106,6 +106,9 @@ const pieceMoves = {
         if (y < board.length - 1) freeYDirections.push(1);
         freeXDirections.forEach(dx => {
             freeYDirections.forEach(dy => {
+                if (dx == 0 && dy == 0)
+                    return;
+                
                 if (ignoreAttacks) {
                     moves.push({ x: x + dx, y: y + dy });
                 } else if (xRay || !board[y + dy][x + dx] || board[y + dy][x + dx].team != board[y][x].team) {
@@ -113,6 +116,10 @@ const pieceMoves = {
                 }
             });
         });
+
+        for (const move of moves) {
+            move.attack = true;
+        }
         
         if (!attackerMoves.find(move => {return move.x == x && move.y == y})) {
             let team = board[y][x].team;
@@ -138,9 +145,6 @@ const pieceMoves = {
                     )
                 }))
                 moves.push({x: x - 2, y: y});
-        }
-        for (const move of moves) {
-            move.attack = true;
         }
 
         return moves;
