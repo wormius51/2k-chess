@@ -105,7 +105,7 @@ function fenToPosition (fen) {
     let position = copyPosition(emptyPosition);
     position.turn = "white";
     position.castling = {white: {short: false, long: false}, black: {short: false, long: false}};
-    let strings = fen.split(" ");
+    let strings = fen.split(/[_\s]/);
     if (strings.length < 1)
         return position;
     let rank = 0;
@@ -118,6 +118,7 @@ function fenToPosition (fen) {
             continue;
         }
         if (isNaN(c)) {
+            console.log(c);
             let piece = charToPiece(c, rank);
             if (piece.type == "ball") {
                 if (!position.ball)
@@ -133,23 +134,28 @@ function fenToPosition (fen) {
             file += +c;
     }
     if (strings.length < 2)
-        return;
+        return position;
     position.turn = (strings[1] == "b") ? "black" : "white";
     if (strings.length < 3)
         return position;
     for (let charIndex = 0; charIndex < strings[2].length; charIndex++) {
+        let cornerPiece;
         switch (strings[2][charIndex]) {
             case "K":
-                position.castling.white.short = true;
+                cornerPiece = position[boardHeight - 1][boardWidth - 1];
+                position.castling.white.short = cornerPiece && cornerPiece.type == "rook" && cornerPiece.team == "white";
                 break;
             case "Q":
-                position.castling.white.long = true;
+                cornerPiece = position[boardHeight - 1][0];
+                position.castling.white.long = cornerPiece && cornerPiece.type == "rook" && cornerPiece.team == "white";
                 break;
             case "k":
-                position.castling.black.short = true;
+                cornerPiece = position[0][boardWidth - 1];
+                position.castling.black.short = cornerPiece && cornerPiece.type == "rook" && cornerPiece.team == "black";
                 break;
             case "q":
-                position.castling.black.long = true;
+                cornerPiece = position[0][0];
+                position.castling.black.long = cornerPiece && cornerPiece.type == "rook" && cornerPiece.team == "white";;
                 break;
         }
     }

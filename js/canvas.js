@@ -78,17 +78,22 @@ function drawPiece (piece, file, rank, size) {
     context.drawImage(piecesImage, pieceX * pieceEdgeLength, pieceY * pieceEdgeLength, pieceEdgeLength, pieceEdgeLength, file * squareEdgeLength, rank * squareEdgeLength, squareEdgeLength * size, squareEdgeLength * size);
 }
 
-function drawAttackCount (file, rank) {
-    let attackCount = attacksCounts[rank][file];
+function drawTextOnSquare (text, file, rank) {
+    let fontSize = squareEdgeLength / 2;
     context.fillStyle = ((file + rank) % 2 == 1) ? lightSquareColor : darkSquareColor;
-    context.font = `${squareEdgeLength}px verda`;
+    context.font = `${fontSize}px verda`;
     let x = file;
     let y = rank;
     if (flippedBoard) {
         x = boardWidth - 1 - file;
         y = boardHeight - 1 - rank;
     }
-    context.fillText(attackCount, (x + 0.2) * squareEdgeLength, (y + 0.9) * squareEdgeLength, squareEdgeLength);
+    context.fillText(text, x * squareEdgeLength + 0.2 * fontSize, y * squareEdgeLength + 0.9 * fontSize, squareEdgeLength);
+}
+
+function drawAttackCount (file, rank) {
+    let attackCount = attacksCounts[rank][file];
+    drawTextOnSquare(`${attackCount}`, file, rank);
 }
 
 function drawAttackCounts () {
@@ -100,7 +105,13 @@ function drawAttackCounts () {
 }
 
 function drawLevelAttackCounts () {
-    // TODO
+    if (!currentLevel)
+        return;
+
+    for (const goal of currentLevel.goals) {
+        let attackCount = attacksCounts[goal.y][goal.x];
+        drawTextOnSquare(`${attackCount}/${goal.count}`, goal.x, goal.y);
+    }
 }
 
 function drawOutline (pieceX, pieceY, file, rank, size) {
@@ -189,8 +200,11 @@ function drawBoard () {
     drawSquares();
     //drawClydeBackground();
     drawPieces();
-    if (drawingAttackCounts)
+    if (currentLevel)
+        drawLevelAttackCounts();
+    else if (drawingAttackCounts)
         drawAttackCounts();
+    
 
     drawMoveOptions();
     if (draggedPiece)

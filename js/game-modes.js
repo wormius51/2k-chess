@@ -3,6 +3,9 @@ var attacksCounts = [];
 var currentLevel;
 
 var drawingAttackCounts = true;
+var skipEmenyTurn = false;
+
+window.addEventListener('load', populateLevelButtons);
 
 /**
  * 
@@ -129,5 +132,25 @@ function calculateAttacksCounts () {
         for (let file = 0; file < boardWidth; file++) {
             attacksCounts[rank][file] = getSquareAttackCount(file, rank);
         }
+    }
+}
+
+function playLevel (level) {
+    currentLevel = level;
+    skipEmenyTurn = true;
+    position = fenToPosition(level.fen);
+    calculateAttacksCounts();
+    drawBoard()
+}
+
+function populateLevelButtons () {
+    const levelButtonsDiv = document.getElementById("levelButtonsDiv");
+    for (const level of levels) {
+        let button = document.createElement('button');
+        button.innerText = level.name;
+        button.addEventListener('click', () => {
+            playLevel(level);
+        });
+        levelButtonsDiv.appendChild(button);
     }
 }

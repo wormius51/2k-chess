@@ -98,8 +98,7 @@ function positionAfterMove (position, move) {
     return afterPosition;
 }
 
-function positionPlayMove (position, move) {
-    
+function positionPlayMove (position, move) {   
     let piece = position[move.sy][move.sx];
     position[move.sy][move.sx] = undefined;
     if (move.bx != undefined)
@@ -135,7 +134,8 @@ function positionPlayMove (position, move) {
     piece.firstMove = false;
     if (position.enpassant && position.turn != position.enpassant.team)
         position.enpassant = undefined;
-    position.turn = (position.turn == "white") ? "black" : "white";
+    if (!skipEmenyTurn)
+        position.turn = (position.turn == "white") ? "black" : "white";
 }
 
 
