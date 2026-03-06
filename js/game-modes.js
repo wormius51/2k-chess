@@ -141,6 +141,7 @@ function playLevel (level) {
     position = fenToPosition(level.fen);
     calculateAttacksCounts();
     drawBoard()
+    displayLevelInfo(level);
 }
 
 function populateLevelButtons () {
@@ -153,4 +154,10 @@ function populateLevelButtons () {
         });
         levelButtonsDiv.appendChild(button);
     }
+}
+
+function displayLevelInfo (level = currentLevel) {
+    document.getElementById("levelHeader").innerText = level.name;
+    document.getElementById("levelDescriptionP").innerText = level.desctiption;
+    document.getElementById("levelMovesCounter").innerText = `${position.turnNumber}/${level.minimumMoves}`;
 }

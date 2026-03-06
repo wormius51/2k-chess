@@ -21,4 +21,6 @@ function updateInfo () {
             resultText.innerHTML = "Draw by stalemate";
             break;
     }
+    if (currentLevel)
+        displayLevelInfo();
 }

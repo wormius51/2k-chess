@@ -103,6 +103,7 @@ function charToPiece (c, rank) {
 
 function fenToPosition (fen) {
     let position = copyPosition(emptyPosition);
+    position.turnNumber = 0;
     position.turn = "white";
     position.castling = {white: {short: false, long: false}, black: {short: false, long: false}};
     let strings = fen.split(/[_\s]/);
@@ -118,7 +119,6 @@ function fenToPosition (fen) {
             continue;
         }
         if (isNaN(c)) {
-            console.log(c);
             let piece = charToPiece(c, rank);
             if (piece.type == "ball") {
                 if (!position.ball)

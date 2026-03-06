@@ -5,6 +5,7 @@ function setStartingPosition () {
    position.turn = "white";
    position.castling = {white: {short: true, long: true}, black: {short: true, long: true}};
    position.ball = position[3][4];
+   position.turnNumber = 0;
 }
 
 const emptyPosition = [
@@ -136,6 +137,8 @@ function positionPlayMove (position, move) {
         position.enpassant = undefined;
     if (!skipEmenyTurn)
         position.turn = (position.turn == "white") ? "black" : "white";
+
+    position.turnNumber++;
 }
 
 
