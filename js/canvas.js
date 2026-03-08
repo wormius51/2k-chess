@@ -81,6 +81,7 @@ function drawPiece (piece, file, rank, size) {
 function drawTextOnSquare (text, file, rank) {
     let fontSize = squareEdgeLength / 2;
     context.fillStyle = ((file + rank) % 2 == 1) ? lightSquareColor : darkSquareColor;
+    context.strokeStyle = ((file + rank) % 2 == 0) ? lightSquareColor : darkSquareColor;
     context.font = `${fontSize}px verda`;
     let x = file;
     let y = rank;
@@ -89,6 +90,7 @@ function drawTextOnSquare (text, file, rank) {
         y = boardHeight - 1 - rank;
     }
     context.fillText(text, x * squareEdgeLength + 0.2 * fontSize, y * squareEdgeLength + 0.9 * fontSize, squareEdgeLength);
+    context.strokeText(text, x * squareEdgeLength + 0.2 * fontSize, y * squareEdgeLength + 0.9 * fontSize, squareEdgeLength);
 }
 
 function drawAttackCount (file, rank) {

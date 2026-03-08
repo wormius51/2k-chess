@@ -105,7 +105,7 @@ function positionPlayMove (position, move) {
     if (move.bx != undefined)
         position[move.by][move.bx] = position.ball;
     position[move.y][move.x] = piece;
-    
+
     if (piece.type == "pawn") {
         let colorSign = (piece.team == "white") ? 1 : -1;
         if (position.enpassant && position.enpassant.x == move.x && position.enpassant.y == move.y)
@@ -114,6 +114,7 @@ function positionPlayMove (position, move) {
             position.enpassant = {x: move.x, y: move.y + colorSign, team: piece.team};
         if (move.promotion)
             piece.type = move.promotion;
+        
     } else if (piece.type == "rook") {
         if (move.sx == 0)
             position.castling[piece.team].long = false;

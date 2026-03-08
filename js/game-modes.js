@@ -142,6 +142,7 @@ function calculateAttacksCounts () {
 }
 
 function playLevel (level) {
+    possibleMoves = [];
     currentLevel = level;
     skipEmenyTurn = true;
     position = fenToPosition(level.fen);
