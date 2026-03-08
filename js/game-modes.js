@@ -1,4 +1,8 @@
 
+const solvedHeader = document.getElementById('solvedHeader');
+const nextButton = document.getElementById('nextButton');
+const restartButton = document.getElementById('restartButton');
+
 var attacksCounts = [];
 var currentLevel;
 
@@ -6,6 +10,8 @@ var drawingAttackCounts = true;
 var skipEmenyTurn = false;
 
 window.addEventListener('load', populateLevelButtons);
+nextButton.addEventListener('click', playNextLevel);
+restartButton.addEventListener('click', restartLevel);
 
 /**
  * 
@@ -142,6 +148,19 @@ function playLevel (level) {
     calculateAttacksCounts();
     drawBoard()
     displayLevelInfo(level);
+
+    solvedHeader.style.display = "none";
+    nextButton.style.display = "none";
+    restartButton.style.display = "inline";
+}
+
+function playNextLevel () {
+    const currentLevelIndex = levels.findIndex(level => level == currentLevel);
+    playLevel(levels[currentLevelIndex + 1]);
+}
+
+function restartLevel () {
+    playLevel(currentLevel);
 }
 
 function populateLevelButtons () {
@@ -159,5 +178,26 @@ function populateLevelButtons () {
 function displayLevelInfo (level = currentLevel) {
     document.getElementById("levelHeader").innerText = level.name;
     document.getElementById("levelDescriptionP").innerText = level.desctiption;
-    document.getElementById("levelMovesCounter").innerText = `${position.turnNumber}/${level.minimumMoves}`;
+    document.getElementById("levelMovesCounter").innerText = `Moves: ${position.turnNumber}/${level.minimumMoves}`;
+}
+
+function didPassLevel (level = currentLevel) {
+    if (position.turnNumber > level.minimumMoves)
+        return false;
+
+    for (const goal of level.goals) {
+        let attackCount = getSquareAttackCount(goal.x, goal.y);
+        if (attackCount < goal.count)
+            return false;
+    }
+
+    return true;
+}
+
+function checkLevelPass (level = currentLevel) {
+    if (didPassLevel(level)) {
+        solvedHeader.style.display = "block";
+        if (levels.findIndex(l => l == level) < levels.length - 1)
+            nextButton.style.display = "block";
+    }
 }

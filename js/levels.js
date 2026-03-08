@@ -1,7 +1,10 @@
 const levels = [
     Level(
         "Tutorial",
-        `Move the king to attack the marked square.`,
+        `
+            Move the king to attack the marked square.
+            You have a limited number of moves.
+        `,
         "4k3/8/8/8/8/8/8/4K3 w K - 0 1",
         [
             {x: 4, y: 4, count: 1}

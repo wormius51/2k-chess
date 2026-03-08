@@ -1,7 +1,5 @@
 window.addEventListener('load', () => {
-    setStartingPosition();
-    calculateAttacksCounts();
-    drawBoard();
+    playLevel(levels[0]);
 });
 
 canvas.addEventListener('click', selectCanvas);
@@ -106,4 +104,5 @@ function selectSquare (file, rank, xInSquare, yInSquare, isDrag) {
     calculateAttacksCounts();
     drawBoard();
     updateInfo();
+    checkLevelPass();
 }

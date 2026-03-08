@@ -1,6 +1,39 @@
+h1 {
+    font-size: 80px;
+}
+
+h2 {
+    font-size: 50px;
+}
+
+h3 {
+    font-size: 40px;
+}
+
+p {
+    font-size: 40px;
+}
+
+button {
+    font-size: 30px;
+}
+
 #boardCanvas {
     background-color: white;
     border-color: rgb(37, 10, 122);
     border-style: solid;
     height: 90vh;
+}
+
+#solvedHeader {
+    display: none;
+    color: green;
+}
+
+#nextButton {
+    display: none;
+}
+
+#restartButton {
+    display: none;
 }
