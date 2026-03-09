@@ -14,6 +14,8 @@ const moveOptionRadius = 0.4;
 let lightSquareColor = "rgb(235, 235, 239)";
 let darkSquareColor = "rgb(69, 64, 83)";
 let moveOptionColor = "#10fd30d3";
+let markSquareColor = "#f4fe2bd3";
+let markLineWidth = 20;
 let ballMoveColor = "grey";
 
 let draggedPiece = undefined;
@@ -31,6 +33,17 @@ function drawSquares () {
         for (let rank = 0; rank < boardHeight; rank++) {
             context.fillStyle = ((file + rank) % 2 == 0) ? lightSquareColor : darkSquareColor;
             context.fillRect(file * squareEdgeLength, rank * squareEdgeLength,  squareEdgeLength, squareEdgeLength);
+        }
+    }
+}
+
+function drawSquareMarks () {
+    if (currentLevel) {
+        context.strokeStyle = markSquareColor;
+        context.lineWidth = markLineWidth;
+        
+        for (const goal of currentLevel.goals) {
+            context.strokeRect(goal.x * squareEdgeLength, goal.y * squareEdgeLength,  squareEdgeLength, squareEdgeLength);
         }
     }
 }
@@ -204,11 +217,12 @@ function drawBoard () {
     drawSquares();
     //drawClydeBackground();
     drawPieces();
-    if (currentLevel)
+    if (currentLevel) {
         drawLevelAttackCounts();
-    else if (drawingAttackCounts)
+        drawSquareMarks();
+    } else if (drawingAttackCounts) {
         drawAttackCounts();
-    
+    }
 
     drawMoveOptions();
     if (draggedPiece)

@@ -16,7 +16,8 @@ const levels = [
         `
             When a white piece attacks a square, it adds 1.
             When a black piece attacks a square, it subtracts 1.
-            Make the number match the goal.
+            The square shows "-1/1" because there is 1 black piece attacking,
+            and you need to get the number to 1.
         `,
         "4k3/4p3/4n3/4bp2/8/8/8/2R5 w K - 0 1",
         [

@@ -32,8 +32,17 @@ button {
 
 #nextButton {
     display: none;
+    animation-name: clickMe;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
 }
 
 #restartButton {
     display: none;
+}
+
+@keyframes clickMe {
+    0% {font-size: 30px;}
+    50% {font-size: 50px;}
+    100% {font-size: 30px;}
 }
