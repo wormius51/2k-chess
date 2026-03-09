@@ -18,7 +18,7 @@ const levels = [
             When a black piece attacks a square, it subtracts 1.
             Make the number match the goal.
         `,
-        "4k3/8/8/5p2/8/8/8/2R5 w K - 0 1",
+        "4k3/4p3/4n3/4bp2/8/8/8/2R5 w K - 0 1",
         [
             {x: 4, y: 4, count: 1}
         ],
