@@ -46,5 +46,16 @@ const levels = [
             {x: 3, y: 4, count: 1}
         ],
         4
+    ),
+    Level(
+        "Take the center",
+        `
+            Let's get control over the center.
+        `,
+        "4k3/3pb3/2n2n2/8/8/4B3/4PPP1/1N2KB2 w - - 0 1",
+        [
+            {x: 3, y: 3, count: 3}
+        ],
+        5
     )
 ];

@@ -1,7 +1,7 @@
 window.addEventListener('load', () => {
-    //playLevel(levels[0]);
-    setStartingPosition();
-    drawBoard();
+    playLevel(levels[0]);
+    //setStartingPosition();
+    //drawBoard();
 });
 
 canvas.addEventListener('click', selectCanvas);
