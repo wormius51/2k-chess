@@ -18,6 +18,7 @@ let markSquareColor = "#f4fe2bd3";
 let markLineWidth = 20;
 let ballMoveColor = "grey";
 
+
 let draggedPiece = undefined;
 let kickingPiece = undefined;
 let mouseX = 0;
@@ -41,7 +42,7 @@ function drawSquareMarks () {
     if (currentLevel) {
         context.strokeStyle = markSquareColor;
         context.lineWidth = markLineWidth;
-        
+
         for (const goal of currentLevel.goals) {
             context.strokeRect(goal.x * squareEdgeLength, goal.y * squareEdgeLength,  squareEdgeLength, squareEdgeLength);
         }
