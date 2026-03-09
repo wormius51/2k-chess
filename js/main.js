@@ -1,7 +1,7 @@
 window.addEventListener('load', () => {
-    playLevel(levels[0]);
-    //setStartingPosition();
-    //drawBoard();
+    //playLevel(levels[0]);
+    setStartingPosition();
+    drawBoard();
 });
 
 canvas.addEventListener('click', selectCanvas);
@@ -50,12 +50,13 @@ function selectSquare (file, rank, xInSquare, yInSquare, isDrag) {
         rank = boardHeight - 1 - rank;
     }
 
-    if (position[rank] && draggedPiece == position.ball && position[rank][file] == position.ball)
-        return;
+    //if (position[rank] && draggedPiece == position.ball && position[rank][file] == position.ball)
+        //return;
     if (isDrag && position[rank])
         draggedPiece = position[rank][file];
     else
         draggedPiece = undefined;
+
     let move = possibleMoves.find(m => {
         return ((m.bx == undefined && m.x == file && m.y == rank) || 
         (m.bx == file && m.by == rank)) &&
@@ -65,6 +66,7 @@ function selectSquare (file, rank, xInSquare, yInSquare, isDrag) {
         m.yInSquare <= yInSquare &&
         m.yInSquare > yInSquare - 0.5))
     });
+
     if (move) {
         if (!move.ballMoves && !move.promotions) {
             positionPlayMove(position, move);
@@ -94,8 +96,9 @@ function selectSquare (file, rank, xInSquare, yInSquare, isDrag) {
             draggedPiece = position.ball;
             kickingPiece = position[move.sy][move.sx];
         }
-        else if (move.promotions)
+        else if (move.promotions) {
             possibleMoves = move.promotions;
+        }
         else
             possibleMoves = [];
     } else {
@@ -106,5 +109,6 @@ function selectSquare (file, rank, xInSquare, yInSquare, isDrag) {
     calculateAttacksCounts();
     drawBoard();
     updateInfo();
-    checkLevelPass();
+    if (currentLevel)
+        checkLevelPass();
 }

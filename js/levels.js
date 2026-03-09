@@ -41,9 +41,9 @@ const levels = [
         `
             Spooky scary queen and bishop battery.
         `,
-        "7b/4n1qk/8/6pb/8/2Ppp3/PP4P1/R3K3 w Q - 0 1",
+        "7b/4n1qk/8/6pb/8/2Ppp3/PP4Pp/R3K3 w Q - 0 1",
         [
-            {x: 2, y: 5, count: 1}
+            {x: 3, y: 4, count: 1}
         ],
         4
     )

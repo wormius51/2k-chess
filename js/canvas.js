@@ -94,8 +94,10 @@ function drawTextOnSquare (text, file, rank) {
 }
 
 function drawAttackCount (file, rank) {
-    let attackCount = attacksCounts[rank][file];
-    drawTextOnSquare(`${attackCount}`, file, rank);
+    if (attacksCounts[rank]) {
+        let attackCount = attacksCounts[rank][file];
+        drawTextOnSquare(`${attackCount}`, file, rank);
+    }
 }
 
 function drawAttackCounts () {

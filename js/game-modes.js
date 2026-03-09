@@ -106,9 +106,10 @@ function getSquareAttackCount (file, rank) {
                     let xRayedPieceMove = movesGrid[blockingY][blockingX];
                     if (xRayedPieceMove) {
                         // You can't make a battery with a king because you can't trade the king.
-                        if (xRayedPieceMove.piece.type == "king" && piece.team == xRayedPieceMove.piece.team)
+                        if (xRayedPieceMove.piece.type == "king" && piece.team == xRayedPieceMove.piece.team) {
                             blocked = true;
                             break;
+                        }
 
                     } else {
                         let blockingPiece = position[blockingY][blockingX];
