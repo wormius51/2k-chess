@@ -58,5 +58,18 @@ const levels = [
             {x: 3, y: 4, count: 1}
         ],
         4
+    ),
+    Level(
+        "Racing Horse",
+        `
+            Which is faster, knights or pawns?
+        `,
+        "k4N2/4p3/4P3/2p5/8/1N6/7p/K7 w - - 0 1",
+        [
+            {x: 1, y: 4, count: 0},
+            {x: 3, y: 4, count: 1},
+            {x: 7, y: 7, count: 1}
+        ],
+        4
     )
 ];
