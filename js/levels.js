@@ -72,4 +72,33 @@ const levels = [
         ],
         4
     )
+    // Not sure about this level.
+    /*,
+    Level("Development",
+        `
+            Happy pieces can breath.
+        `,
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        [
+            {x: 5, y: 1, count: 1},
+            {x: 2, y: 1, count: 0},
+            {x: 3, y: 3, count: 3},
+            {x: 4, y: 3, count: 3},
+            {x: 3, y: 4, count: 2},
+            {x: 4, y: 4, count: 1}
+        ],
+        6
+    )*/
+   ,
+   Level(
+        "Step bishop, I'm stuck!",
+        `
+            How do you get to the king in a position where you are pinned?
+        `,
+        "r1b1k1r1/pp2np1p/2p1p1pq/2P1P1b1/4n3/8/PPPB2PP/2KR1BNR w q - 0 1",
+        [
+            {x: 3, y: 0, count: 2}
+        ],
+        2
+   )
 ];
