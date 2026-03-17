@@ -1,3 +1,4 @@
+/*
 h1 {
     font-size: 80px;
 }
@@ -28,6 +29,14 @@ button {
 #solvedHeader {
     display: none;
     color: green;
+}
+*/
+
+#boardCanvas {
+    background-color: white;
+    border-color: rgb(37, 10, 122);
+    border-style: solid;
+    height: 90vh;
 }
 
 #nextButton {
